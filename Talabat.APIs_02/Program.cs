@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Talabat.APIs_02.Errors;
+using Talabat.APIs_02.Extensions;
 using Talabat.APIs_02.Helpers;
 using Talabat.APIs_02.Middlewares;
 using Talabat.Core.Repositories.Contract;
@@ -20,10 +21,13 @@ namespace Talabat.APIs_02
 			#region Configure Services
 			// Add services to the container.
 
+			#region SwaggerServicesExtension
+
 			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+
+			#endregion
+
+			builder.Services.AddSwaggerServices();
 
 			builder.Services.AddDbContext<StoreContext>(options =>
 			{
@@ -32,34 +36,11 @@ namespace Talabat.APIs_02
 
 			#endregion
 
-			#region DI
-			builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+			#region ApplicationServicesExtension
+
+			builder.Services.AddApplicationServices();
+
 			#endregion
-
-			#region AutoMapper
-			builder.Services.AddAutoMapper(typeof(MappingProfiles));
-			#endregion
-
-			#region Validation Error Handling
-			builder.Services.Configure<ApiBehaviorOptions>(options =>
-			{
-				options.InvalidModelStateResponseFactory = (actionContext) =>
-			   {
-				   var errors = actionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
-														.SelectMany(P => P.Value.Errors)
-														.Select(E => E.ErrorMessage)
-														.ToList();
-
-				   var response = new ApiValidationErrorResponse()
-				   {
-					   Errors = errors
-				   };
-
-				   return new BadRequestObjectResult(response);
-			   };
-			}); 
-			#endregion
-
 
 			var app = builder.Build();
 
@@ -91,8 +72,10 @@ namespace Talabat.APIs_02
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
+				#region SwaggerServicesExtension3
+
+				app.UseSwaggerMiddlewares(); 
+				#endregion
 			}
 
 			app.UseStatusCodePagesWithReExecute("/errors/{0}");
