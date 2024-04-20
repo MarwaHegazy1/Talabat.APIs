@@ -72,6 +72,7 @@ namespace Talabat.APIs_02
 
 			app.UseAuthorization();
 
+			app.UseStaticFiles();
 
 			app.MapControllers();
 			#endregion
