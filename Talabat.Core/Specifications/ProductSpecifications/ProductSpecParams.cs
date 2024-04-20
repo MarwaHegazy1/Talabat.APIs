@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Talabat.Core.Specifications.ProductSpecifications
 {
@@ -17,7 +18,13 @@ namespace Talabat.Core.Specifications.ProductSpecifications
             set { pageSize = value > MaxPageSize ? MaxPageSize : value; }
         }
 		public int PageIndex { get; set; } = 1;
-		public string? Sort { get; set; }
+        private string? search { get; set; }
+        public string?  Search 
+        {
+            get { return search; }
+            set { search = value?.ToLower(); } 
+        }
+        public string? Sort { get; set; }
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
        
