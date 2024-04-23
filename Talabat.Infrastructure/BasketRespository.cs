@@ -16,7 +16,7 @@ namespace Talabat.Infrastructure
 		private readonly IDatabase _database;
 
 		public BasketRespository(IConnectionMultiplexer redis)
-        {
+		{
 			_database = redis.GetDatabase();
 		}
 
@@ -38,3 +38,4 @@ namespace Talabat.Infrastructure
 			return await GetBasketAsync(basket.Id);
 		}
 	}
+}
