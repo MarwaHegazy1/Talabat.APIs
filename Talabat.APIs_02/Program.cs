@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -8,6 +9,7 @@ using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Extensions;
 using Talabat.APIs_02.Helpers;
 using Talabat.APIs_02.Middlewares;
+using Talabat.Core.Entities.Identity;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Infrastructure;
 using Talabat.Infrastructure.Data;
@@ -46,7 +48,12 @@ namespace Talabat.APIs_02
 			{
 				var connection = builder.Configuration.GetConnectionString("Redis");
 				return ConnectionMultiplexer.Connect(connection);
-			}); 
+			});
+			#endregion
+
+			#region Register 3-main services in DI Container
+			builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+				.AddEntityFrameworkStores<ApplicationIdentityDbContext>() ;
 			#endregion
 			#endregion
 
@@ -74,6 +81,10 @@ namespace Talabat.APIs_02
 				await _dbContext.Database.MigrateAsync(); // Update-Database
 				await StoreContextSeed.SeedAsyunc(_dbContext); // DataSeeding
 				await _IdentityDbContext.Database.MigrateAsync();
+
+
+				var _userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+				await ApplicationIdentityDataSeed.SeedUsersAsync(_userManager);
 			}
 			catch (Exception ex)
 			{
