@@ -10,6 +10,10 @@ namespace Talabat.APIs_02.Extensions
 	{
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
+			#region DI Basket
+			services.AddScoped(typeof(IBasketRepository), typeof(BasketRespository)); 
+			#endregion
+
 			#region DI
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			#endregion
@@ -36,7 +40,8 @@ namespace Talabat.APIs_02.Extensions
 					return new BadRequestObjectResult(response);
 				};
 			});
-			#endregion
+			#endregion 
+
 			return services;
 		}
 	}

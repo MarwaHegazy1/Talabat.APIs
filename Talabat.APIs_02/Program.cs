@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Extensions;
 using Talabat.APIs_02.Helpers;
@@ -34,6 +35,13 @@ namespace Talabat.APIs_02
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 			});
 
+			#region DI BasketRepo
+			builder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) =>
+			{
+				var connection = builder.Configuration.GetConnectionString("Redis");
+				return ConnectionMultiplexer.Connect(connection);
+			}); 
+			#endregion
 			#endregion
 
 			#region ApplicationServicesExtension
@@ -74,7 +82,7 @@ namespace Talabat.APIs_02
 			{
 				#region SwaggerServicesExtension3
 
-				app.UseSwaggerMiddlewares(); 
+				app.UseSwaggerMiddlewares();
 				#endregion
 			}
 
