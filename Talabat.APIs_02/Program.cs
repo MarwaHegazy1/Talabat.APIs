@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using System;
 using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Extensions;
 using Talabat.APIs_02.Helpers;
@@ -10,6 +11,7 @@ using Talabat.APIs_02.Middlewares;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Infrastructure;
 using Talabat.Infrastructure.Data;
+using Talabat.Infrastructure.Identity;
 
 namespace Talabat.APIs_02
 {
@@ -35,6 +37,10 @@ namespace Talabat.APIs_02
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 			});
 
+			builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
+			{
+				options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+			});
 			#region DI BasketRepo
 			builder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) =>
 			{
@@ -57,6 +63,8 @@ namespace Talabat.APIs_02
 			using var scope = app.Services.CreateScope();
 			var services = scope.ServiceProvider;
 			var _dbContext = services.GetRequiredService<StoreContext>();
+			var _IdentityDbContext = services.GetRequiredService<ApplicationIdentityDbContext>();
+
 			// ASK CLR for Creating Object from DbContext Explicitly
 
 			var loggerFactory = services.GetRequiredService<ILoggerFactory>();
@@ -65,6 +73,7 @@ namespace Talabat.APIs_02
 			{
 				await _dbContext.Database.MigrateAsync(); // Update-Database
 				await StoreContextSeed.SeedAsyunc(_dbContext); // DataSeeding
+				await _IdentityDbContext.Database.MigrateAsync();
 			}
 			catch (Exception ex)
 			{
