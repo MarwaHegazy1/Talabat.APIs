@@ -1,10 +1,13 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System;
+using System.Text;
 using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Extensions;
 using Talabat.APIs_02.Helpers;
@@ -45,6 +48,7 @@ namespace Talabat.APIs_02
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
 			});
+
 			#region DI BasketRepo
 			builder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) =>
 			{
@@ -55,13 +59,15 @@ namespace Talabat.APIs_02
 
 			#region Register 3-main services in DI Container
 			builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<ApplicationIdentityDbContext>() ;
-
-			#region DI IAuthService
-			builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
-			#endregion
+				.AddEntityFrameworkStores<ApplicationIdentityDbContext>();
 
 			#endregion
+
+			#region Security 
+			builder.Services.AddAuthServices(builder.Configuration);
+
+			#endregion
+
 			#endregion
 
 			#region ApplicationServicesExtension
