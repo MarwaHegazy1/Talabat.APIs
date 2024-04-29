@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,14 @@ namespace Talabat.APIs_02.Controllers
 {
 	public class AccountController : BaseApiController
 	{
+		private readonly IMapper _mapper;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly IAuthService _authService;
 
-		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IAuthService authService)
+		public AccountController(IMapper mapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IAuthService authService)
 		{
+			_mapper = mapper;
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_authService = authService;
@@ -80,12 +83,28 @@ namespace Talabat.APIs_02.Controllers
 
 		[Authorize]
 		[HttpGet("address")]
-		public async Task<ActionResult<Address>> GetUserAddress()
+		public async Task<ActionResult<AddressDto>> GetUserAddress()
 		{
 			var user = await _userManager.FindUserWithAddressAsync(User);
-			return Ok(user.Address);
+			return Ok(_mapper.Map<AddressDto>(user.Address));
+		}
+
+		[Authorize]
+		[HttpPut("address")]
+		public async Task<ActionResult<Address>> UpdateUserAddress(AddressDto address)
+		{
+			var updatedAddress = _mapper.Map<Address>(address);
+
+			var user = await _userManager.FindUserWithAddressAsync(User);
+
+			updatedAddress.Id = user.Address.Id;
+
+			user.Address = updatedAddress;
+
+			var result = await _userManager.UpdateAsync(user);
+			if (!result.Succeeded) return BadRequest(new ApiValidationErrorResponse() { Errors = result.Errors.Select(E => E.Description) });
+
+			return Ok(address);
 		}
 	}
-
-
 }
