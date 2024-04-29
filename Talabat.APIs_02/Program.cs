@@ -9,8 +9,10 @@ using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Extensions;
 using Talabat.APIs_02.Helpers;
 using Talabat.APIs_02.Middlewares;
+using Talabat.Application.AuthService;
 using Talabat.Core.Entities.Identity;
 using Talabat.Core.Repositories.Contract;
+using Talabat.Core.Services.Contract;
 using Talabat.Infrastructure;
 using Talabat.Infrastructure.Data;
 using Talabat.Infrastructure.Identity;
@@ -54,6 +56,11 @@ namespace Talabat.APIs_02
 			#region Register 3-main services in DI Container
 			builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationIdentityDbContext>() ;
+
+			#region DI IAuthService
+			builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
+			#endregion
+
 			#endregion
 			#endregion
 

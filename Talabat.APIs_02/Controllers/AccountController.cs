@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs_02.Dtos;
 using Talabat.APIs_02.Errors;
 using Talabat.Core.Entities.Identity;
+using Talabat.Core.Services.Contract;
 
 namespace Talabat.APIs_02.Controllers
 {
@@ -12,7 +13,7 @@ namespace Talabat.APIs_02.Controllers
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
 
-		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+		public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,IAuthService authService)
         {
 			_userManager = userManager;
 			_signInManager = signInManager;
