@@ -4,7 +4,6 @@ namespace Talabat.APIs_02.Dtos
 {
 	public class RegisterDto
 	{
-
 		[Required]
 		public string DisplayName { get; set; } = null!;
 
@@ -21,5 +20,3 @@ namespace Talabat.APIs_02.Dtos
 		public string Password { get; set; } = null!;
 	}
 }
-
-
