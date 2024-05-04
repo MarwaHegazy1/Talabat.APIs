@@ -1,19 +1,17 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs_02.Dtos;
 using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Helpers;
-using Talabat.Core.Entities;
+using Talabat.Core.Entities.Product;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Specifications;
 using Talabat.Core.Specifications.ProductSpecifications;
 
 namespace Talabat.APIs_02.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class ProductsController : BaseApiController
 	{
@@ -34,7 +32,6 @@ namespace Talabat.APIs_02.Controllers
 			_categoriesRepo = categoriesRepo;
 		}
 
-		[Authorize]
 		[HttpGet]
 		public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams specParams)
 		{ 

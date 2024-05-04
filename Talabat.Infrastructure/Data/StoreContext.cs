@@ -6,11 +6,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Talabat.Core.Entities;
+using Talabat.Core.Entities.Product;
 
 namespace Talabat.Infrastructure.Data
 {
-	public class StoreContext : DbContext
+    public class StoreContext : DbContext
 	{
 		public StoreContext(DbContextOptions<StoreContext> options) : base(options)
 		{

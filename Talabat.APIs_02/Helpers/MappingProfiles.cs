@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Talabat.APIs_02.Dtos;
-using Talabat.Core.Entities;
-using Talabat.Core.Entities.Identity;
+using Talabat.Core.Entities.Basket;
+using Talabat.Core.Entities.Product;
 
 namespace Talabat.APIs_02.Helpers
 {
-	public class MappingProfiles : Profile
+    public class MappingProfiles : Profile
 	{
 		public MappingProfiles()
 		{
@@ -19,7 +19,6 @@ namespace Talabat.APIs_02.Helpers
 
 			CreateMap<CustomerBasketDto, CustomerBasket>();
 			CreateMap<BasketItemDto, BasketItem>();
-			CreateMap<Address, AddressDto>().ReverseMap();
 		}
 	}
 }

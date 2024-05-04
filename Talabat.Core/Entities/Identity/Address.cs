@@ -1,6 +1,6 @@
 ﻿namespace Talabat.Core.Entities.Identity
 {
-	public class Address : BaseEntity
+    public class Address : BaseEntity
 	{
 		public string FirstName { get; set; } = null!;
 		public string LastName { get; set; } = null!;

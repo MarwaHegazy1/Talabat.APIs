@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs_02.Dtos;
 using Talabat.APIs_02.Errors;
-using Talabat.Core.Entities;
 using Talabat.Core.Repositories.Contract;
 
 namespace Talabat.APIs_02.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class BasketController : BaseApiController
 	{

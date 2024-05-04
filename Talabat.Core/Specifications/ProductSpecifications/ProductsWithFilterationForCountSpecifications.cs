@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Talabat.Core.Entities;
+using Talabat.Core.Entities.Product;
 
 namespace Talabat.Core.Specifications.ProductSpecifications
 {
-	public class ProductsWithFilterationForCountSpecifications : BaseSpecifications<Product>
+    public class ProductsWithFilterationForCountSpecifications : BaseSpecifications<Product>
 	{
         public ProductsWithFilterationForCountSpecifications( ProductSpecParams specParams)
             : base(P =>
