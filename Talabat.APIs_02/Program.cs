@@ -35,10 +35,11 @@ namespace Talabat.APIs_02
 
 			#region SwaggerServicesExtension
 
-			builder.Services.AddControllers().AddNewtonsoftJson(options =>
-			{
-				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-			});
+			builder.Services.AddControllers();
+			//.AddNewtonsoftJson(options =>
+			//{
+			//	options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+			//});
 
 			#endregion
 
