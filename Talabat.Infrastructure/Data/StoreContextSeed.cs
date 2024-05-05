@@ -62,7 +62,7 @@ namespace Talabat.Infrastructure.Data
 				}
 			}
 
-			if (!_dbContext.Products.Any())
+			if (!_dbContext.DeliveryMethods.Any())
 			{
 				var deliveryMethodsData = File.ReadAllText("../Talabat.Infrastructure/Data/DataSeed/delivery.json");
 				var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodsData);
