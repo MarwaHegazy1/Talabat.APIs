@@ -9,7 +9,7 @@ using Talabat.Core.Entities.Order_Aggregate;
 
 namespace Talabat.Infrastructure.Data.Configurations.OrderConfiguration
 {
-	public class OrderConfigurations : IEntityTypeConfiguration<Order>
+	internal class OrderConfigurations : IEntityTypeConfiguration<Order>
 	{
 		public void Configure(EntityTypeBuilder<Order> builder)
 		{
@@ -20,12 +20,16 @@ namespace Talabat.Infrastructure.Data.Configurations.OrderConfiguration
 				(OStatus) => OStatus.ToString(), (OStatus) => (OrderStatus)Enum.Parse(typeof(OrderStatus), OStatus)
 				);
 
-			///builder.HasOne(order => order.DeliveryMethod)
-			///	.WithOne();
+			builder.HasOne(order => order.DeliveryMethod)
+				.WithMany().OnDelete(DeleteBehavior.SetNull);
+			 
 			///builder.HasIndex("DeliveryMethodId").IsUnique(true);
 
 			builder.Property(order => order.Subtotal)
 				.HasColumnType("decimal(12,2)");
+
+			builder.HasMany(order => order.Items)
+					.WithOne().OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

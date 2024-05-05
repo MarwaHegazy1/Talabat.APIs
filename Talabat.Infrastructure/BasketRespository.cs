@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Talabat.Core.Entities.Basket;
 using Talabat.Core.Repositories.Contract;
 
 namespace Talabat.Infrastructure

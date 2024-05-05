@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs_02.Dtos;
 using Talabat.APIs_02.Errors;
+using Talabat.Core.Entities.Basket;
 using Talabat.Core.Repositories.Contract;
 
 namespace Talabat.APIs_02.Controllers

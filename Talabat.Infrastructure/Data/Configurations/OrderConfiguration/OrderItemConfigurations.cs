@@ -9,7 +9,7 @@ using Talabat.Core.Entities.Order_Aggregate;
 
 namespace Talabat.Infrastructure.Data.Configurations.OrderConfiguration
 {
-	public class OrderItemConfigurations : IEntityTypeConfiguration<OrderItem>
+	internal class OrderItemConfigurations : IEntityTypeConfiguration<OrderItem>
 	{
 		public void Configure(EntityTypeBuilder<OrderItem> builder)
 		{

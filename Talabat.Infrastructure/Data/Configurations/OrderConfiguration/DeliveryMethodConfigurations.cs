@@ -9,7 +9,7 @@ using Talabat.Core.Entities.Order_Aggregate;
 
 namespace Talabat.Infrastructure.Data.Configurations.OrderConfiguration
 {
-	public class DeliveryMethodConfigurations : IEntityTypeConfiguration<DeliveryMethod>
+	internal class DeliveryMethodConfigurations : IEntityTypeConfiguration<DeliveryMethod>
 	{
 		public void Configure(EntityTypeBuilder<DeliveryMethod> builder)
 		{
