@@ -43,7 +43,7 @@ namespace Talabat.Application.OrderService
 			{
 				foreach (var item in basket.Items)
 				{
-					var product = await _unitOfWork.Repository<Product>().GetAsync(item.Id);
+					var product = await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
 					
 					var productItemOrdered = new ProductItemOrdered(item.Id, product.Name, product.PictureUrl);
 
@@ -57,7 +57,7 @@ namespace Talabat.Application.OrderService
 			var subtotal = orderItems.Sum(item => item.Price * item.Quantity);
 
 			// 4. Get Delivery Method From DeliveryMethods Repo
-			var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetAsync(deliveryMethodId);
+			var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
 
 			// 5. Create Order
 			var order = new Order(
@@ -81,17 +81,18 @@ namespace Talabat.Application.OrderService
 		public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
 		{
 			var ordersRepo = _unitOfWork.Repository<Order>();
-			
 			var spec = new OrderSpecifications(buyerEmail);
-			
 			var orders = await ordersRepo.GetAllWithSpecAsync(spec);
-			
 			return orders;
 		}
 
-		public Task<Order> GetOrderByIdForUserAsync(string buyerEmail, int orderId)
+		public Task<Order?> GetOrderByIdForUserAsync(string buyerEmail, int orderId)
 		{
-			throw new NotImplementedException();
+			var orderRepo = _unitOfWork.Repository<Order>();
+			var orderSpec = new OrderSpecifications(orderId, buyerEmail);
+			var order = orderRepo.GetByIdWithSpecAsync(orderSpec);
+			return order;
+
 		}
 
 		public Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
