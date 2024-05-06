@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs_02.Dtos;
@@ -48,6 +49,15 @@ namespace Talabat.APIs_02.Controllers
 			var order = await _orderService.GetOrderByIdForUserAsync(email, id);
 			if (order is null) return NotFound(new ApiResponse(404));
 			return Ok(_mapper.Map<OrderToReturnDto>(order));
+		}
+
+
+		[Authorize]
+		[HttpGet("deliveryMethods")]
+		public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
+		{
+			var deliveryMethods = await _orderService.GetDeliveryMethodsAsync();
+			return Ok(deliveryMethods);
 		}
 	}
 }
