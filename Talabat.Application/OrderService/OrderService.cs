@@ -14,7 +14,7 @@ namespace Talabat.Application.OrderService
 	public class OrderService : IOrderService
 	{
 		private readonly IBasketRepository _basketRepo;
-		private readonly IUnitOfWork _unitOfWork;
+		private readonly IOrderServies _unitOfWork;
 		///private readonly IGenericRepository<Product> _productRepo;
 		///private readonly IGenericRepository<DeliveryMethod> _deliveryMethodRepo;
 		///private readonly IGenericRepository<Order> _orderRepo;
@@ -23,7 +23,7 @@ namespace Talabat.Application.OrderService
 			///, IGenericRepository<Product> productRepo
 			///, IGenericRepository<DeliveryMethod> deliveryMethodRepo
 			///, IGenericRepository<Order> orderRepo
-			, IUnitOfWork unitOfWork)
+			, IOrderServies unitOfWork)
 
         {
 			_basketRepo = basketRepo;

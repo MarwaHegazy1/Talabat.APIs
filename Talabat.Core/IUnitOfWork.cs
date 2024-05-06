@@ -10,7 +10,7 @@ using Talabat.Core.Repositories.Contract;
 
 namespace Talabat.Core
 {
-	public interface IUnitOfWork : IAsyncDisposable 
+	public interface IOrderServies : IAsyncDisposable 
 	{
 		IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity;
 

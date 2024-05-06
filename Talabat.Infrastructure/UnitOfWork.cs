@@ -14,7 +14,7 @@ using Talabat.Infrastructure.Data;
 
 namespace Talabat.Infrastructure
 {
-	public class UnitOfWork : IUnitOfWork
+	public class UnitOfWork : IOrderServies
 	{
 		private readonly StoreContext _dbContext;
 		//private Dictionary<string, GenericRepository<BaseEntity>> _repositories;

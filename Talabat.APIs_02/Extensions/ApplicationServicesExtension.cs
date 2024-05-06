@@ -5,6 +5,7 @@ using System.Text;
 using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Helpers;
 using Talabat.Application.AuthService;
+using Talabat.Application.OrderService;
 using Talabat.Core;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Services.Contract;
@@ -16,9 +17,14 @@ namespace Talabat.APIs_02.Extensions
 	{
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
-			#region DI UnitOfWork
-			services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+			#region DI OrderServies
+			services.AddScoped(typeof(IOrderService), typeof(OrderService));
 			#endregion
+
+			#region DI UnitOfWork
+			services.AddScoped(typeof(IOrderServies), typeof(UnitOfWork));
+			#endregion
+		
 			#region DI Basket
 			services.AddScoped(typeof(IBasketRepository), typeof(BasketRespository)); 
 			#endregion
