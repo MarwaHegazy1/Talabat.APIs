@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Talabat.APIs_02.Dtos;
-using Talabat.Core.Entities;
+using Talabat.Core.Entities.Product;
 
 namespace Talabat.APIs_02.Helpers
 {
-	public class ProductPictureUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
+    public class ProductPictureUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
 	{
 		private readonly IConfiguration _configuration;
 

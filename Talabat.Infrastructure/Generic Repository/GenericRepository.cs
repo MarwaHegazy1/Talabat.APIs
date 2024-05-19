@@ -11,7 +11,7 @@ using Talabat.Infrastructure.Data;
 
 namespace Talabat.Infrastructure
 {
-	public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 	{
 		private readonly StoreContext _dbContext;
 
@@ -28,14 +28,14 @@ namespace Talabat.Infrastructure
 
 		}
 
-		public async Task<T?> GetAsync(int id)
+		public async Task<T?> GetByIdAsync(int id)
 		{
 			//if (typeof(T) == typeof(Product))
 			//	return await _dbContext.Set<Product>().Where(P => P.Id == id).Include(P => P.Brand).Include(P => P.Category).FirstOrDefaultAsync() as T;
 
 			return await _dbContext.Set<T>().FindAsync(id);
 		}
-		public async Task<T?> GetWithSpecAsync(ISpecifications<T> spec)
+		public async Task<T?> GetByIdWithSpecAsync(ISpecifications<T> spec)
 		{
 			return await ApplySpecifications(spec).FirstOrDefaultAsync();
 		}
@@ -55,5 +55,14 @@ namespace Talabat.Infrastructure
 		{
 			return await ApplySpecifications(spec).CountAsync();
 		}
+
+		public void Add(T entity)
+			=> _dbContext.Set<T>().Add(entity);
+
+		public void Update(T entity)
+			=> _dbContext.Set<T>().Update(entity);
+
+		public void Delete(T entity)
+			=> _dbContext.Set<T>().Remove(entity);
 	}
 }
