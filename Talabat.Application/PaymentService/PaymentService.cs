@@ -15,11 +15,11 @@ namespace Talabat.Application.PaymentService
 	{
 		private readonly IConfiguration _configuration;
 		private readonly IBasketRepository _basketRepo;
-		private readonly IUnitOfWork _unitOfWork;
+		private readonly IOrderServies _unitOfWork;
 
 		public PaymentService(IConfiguration configuration,
 			IBasketRepository basketRepo,
-			IUnitOfWork unitOfWork)
+			IOrderServies unitOfWork)
 		{
 			_configuration = configuration;
 			_basketRepo = basketRepo;
@@ -37,7 +37,7 @@ namespace Talabat.Application.PaymentService
 
 			if (basket.DeliveryMethodId.HasValue)
 			{
-				var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetAsync(basket.DeliveryMethodId.Value);
+				var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(basket.DeliveryMethodId.Value);
 				shippingPrice = deliveryMethod.Cost;
 				basket.ShippingPrice = shippingPrice;
 			}
@@ -46,7 +46,7 @@ namespace Talabat.Application.PaymentService
 			{
 				var productRepo = _unitOfWork.Repository<Product>(); foreach (var item in basket.Items)
 				{
-					var product = await productRepo.GetAsync(item.Id);
+					var product = await productRepo.GetByIdAsync(item.Id);
 					if (item.Price != product.Price)
 						item.Price = product.Price;
 				}
