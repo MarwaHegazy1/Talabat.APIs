@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.Text;
 using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Helpers;
 using Talabat.Application.AuthService;
+using Talabat.Application.PaymentService;
+using Talabat.Core.Entities.Identity;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Services.Contract;
 using Talabat.Infrastructure;
+using Talabat.Infrastructure.Identity;
 
 namespace Talabat.APIs_02.Extensions
 {
@@ -15,6 +20,8 @@ namespace Talabat.APIs_02.Extensions
 	{
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
+			services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
+
 			#region DI Basket
 			services.AddScoped(typeof(IBasketRepository), typeof(BasketRespository)); 
 			#endregion
@@ -53,6 +60,11 @@ namespace Talabat.APIs_02.Extensions
 
 		public static IServiceCollection AddAuthServices(this IServiceCollection services,IConfiguration configuration)
 		{
+			#region Register 3-main services in DI Container
+			services.AddIdentity<ApplicationUser, IdentityRole>()
+				.AddEntityFrameworkStores<ApplicationIdentityDbContext>();
+
+			#endregion
 			services.AddAuthentication(options =>
 			{
 				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

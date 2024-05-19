@@ -63,11 +63,7 @@ namespace Talabat.APIs_02
 			});
 			#endregion
 
-			#region Register 3-main services in DI Container
-			builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-				.AddEntityFrameworkStores<ApplicationIdentityDbContext>();
-
-			#endregion
+		
 
 			#region Security 
 			builder.Services.AddAuthServices(builder.Configuration);
