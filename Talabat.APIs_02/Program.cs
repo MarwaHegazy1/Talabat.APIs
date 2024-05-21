@@ -1,24 +1,9 @@
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using StackExchange.Redis;
-using System;
-using System.Text;
-using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Extensions;
-using Talabat.APIs_02.Helpers;
 using Talabat.APIs_02.Middlewares;
-using Talabat.Application.AuthService;
 using Talabat.Core.Entities.Identity;
-using Talabat.Core.Repositories.Contract;
-using Talabat.Core.Services.Contract;
-using Talabat.Infrastructure;
 using Talabat.Infrastructure.Data;
 using Talabat.Infrastructure.Identity;
 
@@ -82,6 +67,16 @@ namespace Talabat.APIs_02
 
 			#endregion
 
+			#region Angular
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("MyPolicy", policeOptions =>
+				{
+					policeOptions.AllowAnyHeader().AllowAnyMethod().WithOrigins(builder.Configuration["FrontBaseUrl"]);
+				});
+			});
+
+			#endregion
 			var app = builder.Build();
 
 			#region Update-Database & DataSeeding
@@ -132,6 +127,8 @@ namespace Talabat.APIs_02
 			app.UseAuthorization();
 
 			app.UseStaticFiles();
+
+			app.UseCors("MyPolicy");
 
 			app.MapControllers();
 			#endregion
