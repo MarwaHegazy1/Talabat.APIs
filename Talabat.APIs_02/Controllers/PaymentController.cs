@@ -9,7 +9,6 @@ using Talabat.Core.Services.Contract;
 
 namespace Talabat.APIs_02.Controllers
 {
-	[Authorize]
 	public class PaymentController : BaseApiController
 	{
 		private readonly IPaymentService _paymentService;
@@ -22,6 +21,7 @@ namespace Talabat.APIs_02.Controllers
 			_logger = logger;
 		}
 
+		[Authorize]
 		[ProducesResponseType(typeof(CustomerBasket), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
 		[HttpPost("{basketid}")]
@@ -41,7 +41,7 @@ namespace Talabat.APIs_02.Controllers
 
 			var paymentIntent = (PaymentIntent)stripeEvent.Data.Object;
 
-			Order? order;
+			Order? order = null;
 			switch (stripeEvent.Type)
 			{
 				case Events.PaymentIntentSucceeded:
