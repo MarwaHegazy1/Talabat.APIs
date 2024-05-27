@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Stripe;
+using Talabat.Application.OrderService;
 using Talabat.Core;
 using Talabat.Core.Entities.Basket;
 using Talabat.Core.Entities.Order_Aggregate;
@@ -81,6 +82,24 @@ namespace Talabat.Application.PaymentService
 			await _basketRepo.UpdateBasketAsync(basket);
 
 			return basket;
+		}
+
+		public async Task<Order> UpdateOrderStatus(string paymentIntentId, bool isPaid)
+		{
+
+			var orderRepo = _unitOfWork.Repository<Order>();
+			var spec = new OrderWithPaymentIntentSpecification(paymentIntentId);
+			var order = await orderRepo.GetByIdWithSpecAsync(spec);
+			
+			if (order is null) return null;
+			if (isPaid)
+
+					order.Status = OrderStatus.PaymentReceived;
+			else
+				order.Status = OrderStatus.PaymentFailed;
+			orderRepo.Update(order);
+			await _unitOfWork.CompleteAsync();
+			return order;
 		}
 	}
 }
