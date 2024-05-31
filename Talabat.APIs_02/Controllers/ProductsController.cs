@@ -32,6 +32,7 @@ namespace Talabat.APIs_02.Controllers
 			_categoriesRepo = categoriesRepo;
 		}
 
+		[Cached(600)]
 		[HttpGet]
 		public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams specParams)
 		{ 

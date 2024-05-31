@@ -41,7 +41,7 @@ namespace Talabat.APIs_02
 			});
 
 			#region DI BasketRepo
-			builder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) =>
+			builder.Services.AddSingleton<IConnectionMultiplexer>((serviceProvider) =>
 			{
 				var connection = builder.Configuration.GetConnectionString("Redis");
 				return ConnectionMultiplexer.Connect(connection);

@@ -5,6 +5,7 @@ using System.Text;
 using Talabat.APIs_02.Errors;
 using Talabat.APIs_02.Helpers;
 using Talabat.Application.AuthService;
+using Talabat.Application.CacheService;
 using Talabat.Application.OrderService;
 using Talabat.Application.PaymentService;
 using Talabat.Application.ProductService;
@@ -19,6 +20,10 @@ namespace Talabat.APIs_02.Extensions
 	{
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
+			#region CacheServices
+			services.AddSingleton(typeof(IResponseCacheService), typeof(ResponseCacheService));
+			#endregion
+
 			services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
 
 			services.AddScoped(typeof(IProductService), typeof(ProductService));
